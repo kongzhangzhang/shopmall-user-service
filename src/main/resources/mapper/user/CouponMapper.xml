@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shopmall.user.user.dao.CouponMapper">
+
+    <resultMap id="Coupon" type="com.shopmall.user.user.model.CouponModel">
+        <result property="id" column="id"/>
+        <result property="couponName" column="coupon_name"/>
+        <result property="satisfyMoney" column="satisfy_money"/>
+        <result property="deductionMoney" column="deduction_money"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="supplierName" column="supplier_name"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="createUserName" column="create_user_name"/>
+        <result property="updateUserId" column="update_user_id"/>
+        <result property="updateUserName" column="update_user_name"/>
+        <result property="ctime" column="c_time"/>
+        <result property="utime" column="u_time"/>
+    </resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+        id ,coupon_name ,satisfy_money ,deduction_money ,start_time ,end_time ,supplier_id ,supplier_name ,create_user_id ,create_user_name ,update_user_id ,update_user_name ,c_time ,u_time 
+	    ]]>
+	</sql>
+
+	<sql id="findWhere">
+	    <where>
+			<if test="couponName != null">
+				AND coupon_name = #{couponName}
+			</if>
+			<if test="supplierId != null">
+				AND supplier_id = #{supplierId}
+			</if>
+			<if test="supplierName != null">
+				AND supplier_name = #{supplierName}
+			</if>
+			<if test="createUserName != null">
+				AND create_user_name = #{createUserName}
+			</if>
+			<if test="updateUserName != null">
+				AND update_user_name = #{updateUserName}
+			</if>
+	    </where>
+	</sql>
+
+	
+	<select id="find" resultMap="Coupon">
+	    SELECT <include refid="columns"/> FROM d_coupon 
+		<include refid="findWhere"/>
+    </select>
+
+	<select id="findById" resultMap="Coupon" >
+	SELECT <include refid="columns"/>
+	<![CDATA[
+	        FROM d_coupon
+	        WHERE
+		        id = #{id} 
+	    ]]>
+	</select>
+	
+</mapper>
+

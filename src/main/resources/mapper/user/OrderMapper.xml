@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shopmall.user.user.dao.OrderMapper">
+
+    <resultMap id="Order" type="com.shopmall.user.user.model.OrderModel">
+        <result property="id" column="id"/>
+        <result property="orderCode" column="order_code"/>
+        <result property="orderTime" column="order_time"/>
+        <result property="orderCommodityName" column="order_commodity_name"/>
+        <result property="orderSuerName" column="order_suer_name"/>
+        <result property="orderMoney" column="order_money"/>
+        <result property="orderMobilePhone" column="order_mobile_phone"/>
+        <result property="orderSupplierName" column="order_supplier_name"/>
+        <result property="orderStatus" column="order_status"/>
+        <result property="logisticsCompany" column="logistics_company"/>
+        <result property="courierNumber" column="courier_number"/>
+        <result property="returnLogisticsCompany" column="return_logistics_company"/>
+        <result property="returnCourierNumber" column="return_courier_number"/>
+        <result property="receivingAddress" column="receiving_address"/>
+        <result property="commodityId" column="commodity_id"/>
+        <result property="suerId" column="suer_id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="ctime" column="c_time"/>
+        <result property="utime" column="u_time"/>
+    </resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+        id ,order_code ,order_time ,order_commodity_name ,order_suer_name ,order_money ,order_mobile_phone ,order_supplier_name ,order_status ,logistics_company ,courier_number ,return_logistics_company ,return_courier_number ,receiving_address ,commodity_id ,suer_id ,supplier_id ,c_time ,u_time 
+	    ]]>
+	</sql>
+
+	<sql id="findWhere">
+	    <where>
+			<if test="orderCode != null">
+				AND order_code = #{orderCode}
+			</if>
+			<if test="orderCommodityName != null">
+				AND order_commodity_name = #{orderCommodityName}
+			</if>
+			<if test="orderSuerName != null">
+				AND order_suer_name = #{orderSuerName}
+			</if>
+			<if test="orderMobilePhone != null">
+				AND order_mobile_phone = #{orderMobilePhone}
+			</if>
+			<if test="orderSupplierName != null">
+				AND order_supplier_name = #{orderSupplierName}
+			</if>
+			<if test="logisticsCompany != null">
+				AND logistics_company = #{logisticsCompany}
+			</if>
+			<if test="courierNumber != null">
+				AND courier_number = #{courierNumber}
+			</if>
+			<if test="returnLogisticsCompany != null">
+				AND return_logistics_company = #{returnLogisticsCompany}
+			</if>
+			<if test="returnCourierNumber != null">
+				AND return_courier_number = #{returnCourierNumber}
+			</if>
+			<if test="receivingAddress != null">
+				AND receiving_address = #{receivingAddress}
+			</if>
+			<if test="commodityId != null">
+				AND commodity_id = #{commodityId}
+			</if>
+			<if test="suerId != null">
+				AND suer_id = #{suerId}
+			</if>
+			<if test="supplierId != null">
+				AND supplier_id = #{supplierId}
+			</if>
+	    </where>
+	</sql>
+
+	
+	<select id="find" resultMap="Order">
+	    SELECT <include refid="columns"/> FROM d_order 
+		<include refid="findWhere"/>
+    </select>
+
+	<select id="findById" resultMap="Order" >
+	SELECT <include refid="columns"/>
+	<![CDATA[
+	        FROM d_order
+	        WHERE
+		        id = #{id} 
+	    ]]>
+	</select>
+	
+</mapper>
+

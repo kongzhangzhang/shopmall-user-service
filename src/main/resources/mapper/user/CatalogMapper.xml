@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shopmall.user.user.dao.CatalogMapper">
+
+    <resultMap id="Catalog" type="com.shopmall.user.user.model.CatalogModel">
+        <result property="id" column="id"/>
+        <result property="catalogName" column="catalog_name"/>
+        <result property="action" column="action"/>
+        <result property="icon" column="icon"/>
+        <result property="status" column="status"/>
+        <result property="userId" column="user_id"/>
+        <result property="sort" column="sort"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="updateUserId" column="update_user_id"/>
+        <result property="ctime" column="c_time"/>
+        <result property="utime" column="u_time"/>
+    </resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+        id ,catalog_name ,action ,icon ,status ,user_id ,sort ,create_user_id ,update_user_id ,c_time ,u_time 
+	    ]]>
+	</sql>
+
+	<sql id="findWhere">
+	    <where>
+			<if test="catalogName != null">
+				AND catalog_name = #{catalogName}
+			</if>
+			<if test="action != null">
+				AND action = #{action}
+			</if>
+			<if test="icon != null">
+				AND icon = #{icon}
+			</if>
+			<if test="userId != null">
+				AND user_id = #{userId}
+			</if>
+	    </where>
+	</sql>
+
+	
+	<select id="find" resultMap="Catalog">
+	    SELECT <include refid="columns"/> FROM d_catalog 
+		<include refid="findWhere"/>
+    </select>
+
+	<select id="findById" resultMap="Catalog" >
+	SELECT <include refid="columns"/>
+	<![CDATA[
+	        FROM d_catalog
+	        WHERE
+		        id = #{id} 
+	    ]]>
+	</select>
+	
+</mapper>
+

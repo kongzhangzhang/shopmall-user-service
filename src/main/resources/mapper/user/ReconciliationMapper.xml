@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shopmall.user.user.dao.ReconciliationMapper">
+
+    <resultMap id="Reconciliation" type="com.shopmall.user.user.model.ReconciliationModel">
+        <result property="id" column="id"/>
+        <result property="supplierName" column="supplier_name"/>
+        <result property="commodityName" column="commodity_name"/>
+        <result property="rtype" column="r_type"/>
+        <result property="roperation" column="r_operation"/>
+        <result property="purchasePrice" column="purchase_price"/>
+        <result property="salePrice" column="sale_price"/>
+        <result property="balance" column="balance"/>
+        <result property="orderCode" column="order_code"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="updateUserId" column="update_user_id"/>
+        <result property="ctime" column="c_time"/>
+        <result property="utime" column="u_time"/>
+    </resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+        id ,supplier_name ,commodity_name ,r_type ,r_operation ,purchase_price ,sale_price ,balance ,order_code ,create_user_id ,update_user_id ,c_time ,u_time 
+	    ]]>
+	</sql>
+
+	<sql id="findWhere">
+	    <where>
+			<if test="supplierName != null">
+				AND supplier_name = #{supplierName}
+			</if>
+			<if test="commodityName != null">
+				AND commodity_name = #{commodityName}
+			</if>
+			<if test="rtype != null">
+				AND r_type = #{rtype}
+			</if>
+			<if test="roperation != null">
+				AND r_operation = #{roperation}
+			</if>
+			<if test="orderCode != null">
+				AND order_code = #{orderCode}
+			</if>
+	    </where>
+	</sql>
+
+	
+	<select id="find" resultMap="Reconciliation">
+	    SELECT <include refid="columns"/> FROM d_reconciliation 
+		<include refid="findWhere"/>
+    </select>
+
+	<select id="findById" resultMap="Reconciliation" >
+	SELECT <include refid="columns"/>
+	<![CDATA[
+	        FROM d_reconciliation
+	        WHERE
+		        id = #{id} 
+	    ]]>
+	</select>
+	
+</mapper>
+

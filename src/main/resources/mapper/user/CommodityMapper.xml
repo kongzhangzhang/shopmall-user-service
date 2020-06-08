@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shopmall.user.user.dao.CommodityMapper">
+
+    <resultMap id="Commodity" type="com.shopmall.user.user.model.CommodityModel">
+        <result property="id" column="id"/>
+        <result property="supplier" column="supplier"/>
+        <result property="commodityName" column="commodity_name"/>
+        <result property="model" column="model"/>
+        <result property="purchasePrice" column="purchase_price"/>
+        <result property="salePrice" column="sale_price"/>
+        <result property="isOnline" column="is_online"/>
+        <result property="isRecommend" column="is_recommend"/>
+        <result property="recommendOrder" column="recommend_order"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="updateUserId" column="update_user_id"/>
+        <result property="ctime" column="c_time"/>
+        <result property="utime" column="u_time"/>
+    </resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+        id ,supplier ,commodity_name ,model ,purchase_price ,sale_price ,is_online ,is_recommend ,recommend_order ,supplier_id ,create_user_id ,update_user_id ,c_time ,u_time 
+	    ]]>
+	</sql>
+
+	<sql id="findWhere">
+	    <where>
+			<if test="supplier != null">
+				AND supplier = #{supplier}
+			</if>
+			<if test="commodityName != null">
+				AND commodity_name = #{commodityName}
+			</if>
+			<if test="model != null">
+				AND model = #{model}
+			</if>
+	    </where>
+	</sql>
+
+	
+	<select id="find" resultMap="Commodity">
+	    SELECT <include refid="columns"/> FROM d_commodity 
+		<include refid="findWhere"/>
+    </select>
+
+	<select id="findById" resultMap="Commodity" >
+	SELECT <include refid="columns"/>
+	<![CDATA[
+	        FROM d_commodity
+	        WHERE
+		        id = #{id} 
+	    ]]>
+	</select>
+	
+</mapper>
+
