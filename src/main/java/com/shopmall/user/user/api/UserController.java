@@ -1054,48 +1054,4 @@ public class UserController {
         }
     }
 
-
-    @ResponseBody
-    @RequestMapping(value = "/updateUserData", method = RequestMethod.POST)
-    public Result updateMobilePhone(@RequestBody QueryDto queryDto) {
-        if (queryDto.getId() != SecurityUtil.getCurrentUserId()) {
-            return ResponseUtil.error("无权限修改其他用户手机号码");
-        }
-
-        if (StringUtils.isEmpty(queryDto.getVerifyCode())) {
-            return ResponseUtil.error("请输入验证码");
-        }
-
-        try {
-            if (StringUtils
-                    .isNotEmpty((String) redisCache.get(SecurityConstant.MOBILE_VERIFY_CODE_PREFIX + queryDto.getContactPhone()))) {
-                if (!((String) redisCache.get(SecurityConstant.MOBILE_VERIFY_CODE_PREFIX + queryDto.getContactPhone()))
-                        .equals(queryDto.getVerifyCode())) {
-                    return ResponseUtil.error("验证码不正确");
-                }
-            } else {
-                return ResponseUtil.error("验证码不存在或已过期");
-            }
-
-            UserModel userInfo = userService.findUserByUserId(queryDto.getId());
-            if (userInfo == null) {
-                return ResponseUtil.error("账户不存在");
-            }
-
-            UserModel userModel = new UserModel();
-            userModel.setId(queryDto.getId());
-            userModel.setHeadImage(queryDto.getHeadImage());
-            userModel.setnickName(queryDto.getNickName());
-            userModel.setContactPhone(queryDto.getContactPhone());
-            int updateCnt = userService.updateNotNull(userModel);
-
-            return ResponseUtil.success();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            return ResponseUtil.error("系统异常, 请稍后重试。");
-        }
-    }
-
 }

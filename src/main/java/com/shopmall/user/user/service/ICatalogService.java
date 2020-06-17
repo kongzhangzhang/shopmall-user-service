@@ -31,5 +31,4 @@ public interface ICatalogService extends IBaseService<CatalogModel> {
 
 	public List<CatalogModel> selectByFilter(CatalogModel catalogModel);
 
-
 }
